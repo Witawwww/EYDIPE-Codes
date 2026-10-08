@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard — VoltHub Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar" aria-label="Admin navigation">
+      <a href="index.html" class="brand"><span class="brand__mark">⚡</span>VoltHub</a>
+
+      <nav class="sidebar__nav">
+        <div class="sidebar__label">Manage</div>
+        <a href="admin.html" class="nav-link active" aria-current="page"><span class="ico">📊</span>Dashboard</a>
+        <a href="inventory.html" class="nav-link"><span class="ico">📦</span>Inventory</a>
+        <div class="sidebar__label" style="margin-top:14px">Store</div>
+        <a href="index.html" class="nav-link"><span class="ico">🛍️</span>View storefront</a>
+      </nav>
+
+      <div class="sidebar__foot">
+        <div class="user-chip">
+          <div class="avatar" data-user-initial>A</div>
+          <div><strong data-user-name>Admin</strong><small>Administrator</small></div>
+        </div>
+        <button class="nav-link" data-logout><span class="ico">🚪</span>Log out</button>
+      </div>
+    </aside>
+    <div class="sidebar-overlay"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button id="menuBtn" class="btn btn--ghost btn--icon menu-btn" aria-label="Open menu">☰</button>
+        <div>
+          <h1>Dashboard</h1>
+          <div class="topbar__sub">Inventory overview and stock requests</div>
+        </div>
+        <div class="topbar__actions">
+          <button id="newReqBtn" class="btn btn--primary">＋ New stock request</button>
+        </div>
+      </header>
+
+      <main class="content">
+
+        <section class="stats" id="stats"></section>
+
+        <section class="split">
+          <div class="card panel">
+            <div class="panel__head"><h2>Units in stock by category</h2></div>
+            <div id="bars" class="bars"></div>
+          </div>
+
+          <div class="card panel">
+            <div class="panel__head">
+              <h2>Low stock alerts</h2>
+              <a href="inventory.html" class="btn btn--ghost btn--sm">Open inventory</a>
+            </div>
+            <div id="lowList" class="list"></div>
+          </div>
+        </section>
+
+        <section class="card panel">
+          <div class="panel__head">
+            <h2>Stock requests / orders</h2>
+            <div id="reqFilter" class="seg" role="tablist">
+              <button class="active" data-f="all">All</button>
+              <button data-f="pending">Pending</button>
+              <button data-f="approved">Approved</button>
+              <button data-f="received">Received</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr><th>Product</th><th>Qty</th><th>Supplier</th><th>Date</th><th>Status</th><th></th></tr>
+              </thead>
+              <tbody id="reqBody"></tbody>
+            </table>
+          </div>
+          <div id="reqEmpty" class="empty" hidden>
+            <div class="empty__icon">📭</div>
+            <h3>No requests here</h3>
+            <p>Create a stock request to restock a product.</p>
+          </div>
+        </section>
+
+        <p class="muted" style="font-size:.85rem">
+          Demo data is saved in this browser only.
+          <button id="resetBtn" class="btn btn--ghost btn--sm" style="margin-left:8px">Reset demo data</button>
+        </p>
+      </main>
+    </div>
+  </div>
+
+  <!-- New stock request modal -->
+  <div id="reqModal" class="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog modal__dialog--md" role="dialog" aria-modal="true" aria-labelledby="reqTitle">
+      <button class="modal__close" data-close aria-label="Close">×</button>
+      <form id="reqForm" novalidate>
+        <div class="modal__head"><h3 id="reqTitle">New stock request</h3></div>
+        <div class="modal__body">
+          <div class="form-grid">
+            <div class="field span-2">
+              <label for="rqProduct">Product</label>
+              <select id="rqProduct" class="input" required></select>
+            </div>
+            <div class="field">
+              <label for="rqQty">Quantity</label>
+              <input id="rqQty" class="input" type="number" min="1" step="1" value="10" required>
+            </div>
+            <div class="field">
+              <label for="rqSupplier">Supplier</label>
+              <input id="rqSupplier" class="input" type="text" placeholder="Supplier name" required>
+            </div>
+            <div class="field span-2">
+              <label for="rqNote">Note (optional)</label>
+              <textarea id="rqNote" class="input" style="min-height:80px" placeholder="Anything the supplier should know…"></textarea>
+            </div>
+            <div id="rqError" class="form-error span-2" hidden></div>
+          </div>
+        </div>
+        <div class="modal__foot">
+          <button type="button" class="btn btn--ghost" data-close>Cancel</button>
+          <button type="submit" class="btn btn--primary">Submit request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

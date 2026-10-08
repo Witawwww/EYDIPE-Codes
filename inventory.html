@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventory — VoltHub Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+
+    <aside class="sidebar" aria-label="Admin navigation">
+      <a href="index.html" class="brand"><span class="brand__mark">⚡</span>VoltHub</a>
+
+      <nav class="sidebar__nav">
+        <div class="sidebar__label">Manage</div>
+        <a href="admin.html" class="nav-link"><span class="ico">📊</span>Dashboard</a>
+        <a href="inventory.html" class="nav-link active" aria-current="page"><span class="ico">📦</span>Inventory</a>
+        <div class="sidebar__label" style="margin-top:14px">Store</div>
+        <a href="index.html" class="nav-link"><span class="ico">🛍️</span>View storefront</a>
+      </nav>
+
+      <div class="sidebar__foot">
+        <div class="user-chip">
+          <div class="avatar" data-user-initial>A</div>
+          <div><strong data-user-name>Admin</strong><small>Administrator</small></div>
+        </div>
+        <button class="nav-link" data-logout><span class="ico">🚪</span>Log out</button>
+      </div>
+    </aside>
+    <div class="sidebar-overlay"></div>
+
+    <div class="main">
+      <header class="topbar">
+        <button id="menuBtn" class="btn btn--ghost btn--icon menu-btn" aria-label="Open menu">☰</button>
+        <div>
+          <h1>Inventory</h1>
+          <div class="topbar__sub">Click a product to edit its photo, description and price</div>
+        </div>
+        <div class="topbar__actions">
+          <button id="addBtn" class="btn btn--primary">＋ Add product</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="card panel">
+          <div class="filters">
+            <div class="search">
+              <span class="search__icon">🔍</span>
+              <input id="invSearch" class="input" type="search" placeholder="Search products…" aria-label="Search products" autocomplete="off">
+            </div>
+            <select id="invCat" class="input" aria-label="Category"></select>
+            <select id="invStock" class="input" aria-label="Stock level">
+              <option value="all">All stock levels</option>
+              <option value="in">In stock</option>
+              <option value="low">Low stock</option>
+              <option value="out">Out of stock</option>
+            </select>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr><th>Product</th><th>Category</th><th class="num">Price</th><th class="num">Stock</th><th>Status</th><th></th></tr>
+              </thead>
+              <tbody id="invBody"></tbody>
+            </table>
+          </div>
+
+          <div id="invEmpty" class="empty" hidden>
+            <div class="empty__icon">🔎</div>
+            <h3>No products match</h3>
+            <p>Adjust your filters or add a new product.</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Product editor modal -->
+  <div id="editModal" class="modal" hidden>
+    <div class="modal__backdrop" data-close></div>
+    <div class="modal__dialog modal__dialog--md" role="dialog" aria-modal="true" aria-labelledby="edTitle">
+      <button class="modal__close" data-close aria-label="Close">×</button>
+      <form id="editForm" novalidate>
+        <div class="modal__head"><h3 id="edTitle">Edit product</h3></div>
+        <div class="modal__body">
+          <div class="editor">
+
+            <div class="editor__photo">
+              <div class="photo-preview"><img id="edPreview" src="" alt="Product photo preview"></div>
+              <label class="btn btn--ghost btn--sm file-btn">📷 Upload photo
+                <input id="edFile" type="file" accept="image/*">
+              </label>
+              <div class="field">
+                <label for="edUrl" class="sr-only">Photo URL</label>
+                <input id="edUrl" class="input" type="url" placeholder="…or paste image URL">
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="field span-2">
+                <label for="edName">Product name</label>
+                <input id="edName" class="input" type="text" required>
+              </div>
+              <div class="field">
+                <label for="edCategory">Category</label>
+                <input id="edCategory" class="input" type="text" list="catList" required>
+                <datalist id="catList"></datalist>
+              </div>
+              <div class="field">
+                <label for="edPrice">Price (₱)</label>
+                <input id="edPrice" class="input" type="number" min="0" step="0.01" required>
+              </div>
+              <div class="field">
+                <label for="edStock">Stock quantity</label>
+                <input id="edStock" class="input" type="number" min="0" step="1" required>
+              </div>
+              <div class="field span-2">
+                <label for="edDesc">Description</label>
+                <textarea id="edDesc" class="input" required></textarea>
+              </div>
+              <div id="edError" class="form-error span-2" hidden></div>
+            </div>
+
+          </div>
+        </div>
+        <div class="modal__foot">
+          <button type="button" id="edDelete" class="btn btn--soft-danger spacer">🗑 Delete</button>
+          <button type="button" class="btn btn--ghost" data-close>Cancel</button>
+          <button type="submit" class="btn btn--primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/inventory.js"></script>
+</body>
+</html>
