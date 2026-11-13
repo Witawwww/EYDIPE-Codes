@@ -1,0 +1,1 @@
+[{"id":1,"name":"Store Admin","username":"admin","password_hash":"$2y$10$3yZpWq3wWi4pnTvN9HqE8.whKVXBdHSJDBUkIYa0yCAD9zhflXa86","role":"admin"},{"id":2,"name":"user","username":"user1","password_hash":"$2y$10$VKcE54bdEfFuUazb/BghJeJe7UU/5bwVPtc7SBPvx7bC.b0PvNIBO","role":"user"}]
