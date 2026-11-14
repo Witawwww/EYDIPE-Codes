@@ -1,0 +1,31 @@
+[admin.php/inventory tab/admin side]
+- Direct edit link when viewing a product instead of add to cart in store front when the user is admin
+- Order history/acceptance with pendings and status (Order Placed, In Transit/Delivery, For Pickup, Delivered/Order Done) — Cancelling order must contact Admin (with reason/note) for approval
+- "Add new category" adding new category for products and "Sort by..." Filter in order to make sorting easier for products
+- Archive: archive unwanted history of old orders, cannot be deleted unless archived first
+- Tabs include: 
+    - Dashboard consisting of metrics and Order History/Pending Orders 
+    - Stock Request for requesting new stocks
+    - Inventory for Product and stock management (edit, and other options — Note: Remove Delete button to avoid bugs)
+- For inventory, Status enum: (Low Stock - lesser than 5, Out of Stock - when stock hits zero, In stock -  more than 5)
+
+[storefront/index.php/customer side]
+- Terms and Conditions must appear on index.php (require once for users only)
+- Add-to-cart must confirm orders before completely checking out (Summary/Review of order/check-out after checking out) — Receipt is received (downloadable) upon confirming check out
+- Search icon for search bar
+
+[login.php/account]
+- Guests (or users without account) cannot add to cart unless logged in — User is redirected to login
+- Additional Input Field (Address) for Delivery
+
+[profile/index.php]
+- Profile is viewable as a card/box container instead of a different tab over index.php/storefront
+- Users who aren't Admin can only update their Address, Admin cannot change their account details
+- Hide/Unhide Password — Confirm Password in registration
+
+
+
+[others]
+- UI cleanup
+- Icon cleanup (replace emojis)
+- Create Official Volthub logo
