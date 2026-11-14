@@ -15,3 +15,6 @@ Others:
 ADDITIONALS:
 - Add icon for search
 - Add icon for hide/unhide password (JS)
+
+
+— by: MahLordu
