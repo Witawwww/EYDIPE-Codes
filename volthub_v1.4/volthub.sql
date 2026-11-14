@@ -1,44 +1,40 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 14, 2026 at 04:52 AM
--- Server version: 8.0.44
--- PHP Version: 8.2.12
+CREATE DATABASE IF NOT EXISTS volthub;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `volthub`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `products`
---
+USE volthub;
 
 CREATE TABLE `products` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL,
   `category` enum('Phones & Tablets','Computers','Audio','Wearables','Cameras','Gaming','Smart Home','Accessories & Power') NOT NULL,
   `price` decimal(10,2) NOT NULL,
   `stock` int NOT NULL,
-  `description` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `products`
---
+-- One image per product. file_path is relative to the project folder (e.g. uploads/abc123.jpg).
+-- Deleting a product also deletes its image row.
+CREATE TABLE `product_images` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
+  `file_path` varchar(255) NOT NULL,
+  `uploaded_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_id` (`product_id`),
+  CONSTRAINT `fk_image_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `role` varchar(20) NOT NULL DEFAULT 'user',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `products` (`id`, `name`, `category`, `price`, `stock`, `description`) VALUES
 (1, 'Apple iPhone 16', 'Phones & Tablets', 37200.00, 25, 'A smartphone series developed by Apple that runs iOS. It is recognized for its camera quality, consistent performance and extended software support. Typical price: PHP 37,200 to 99,200.'),
@@ -66,23 +62,6 @@ INSERT INTO `products` (`id`, `name`, `category`, `price`, `stock`, `description
 (23, 'Apple AirTag', 'Accessories & Power', 1860.00, 8, 'A small tracking device from Apple. It helps users locate personal items through the Find My network. Typical price: PHP 1,860.'),
 (24, 'Logitech MX Master mouse', 'Accessories & Power', 6200.00, 40, 'An ergonomic wireless mouse from Logitech. It is designed for productivity and includes programmable buttons. Typical price: PHP 6,200.');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `product_images`
---
-
-CREATE TABLE `product_images` (
-  `id` int NOT NULL,
-  `product_id` int NOT NULL,
-  `file_path` varchar(255) NOT NULL,
-  `uploaded_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `product_images`
---
-
 INSERT INTO `product_images` (`id`, `product_id`, `file_path`, `uploaded_at`) VALUES
 (1, 24, 'uploads/p24_6af7da76989ed.jpg', '2026-11-14 03:50:14'),
 (2, 23, 'uploads/p23_6af7d8e039062.jpg', '2026-11-14 03:43:28'),
@@ -109,86 +88,5 @@ INSERT INTO `product_images` (`id`, `product_id`, `file_path`, `uploaded_at`) VA
 (23, 2, 'uploads/p2_6af7da385b45d.jpg', '2026-11-14 03:49:12'),
 (24, 1, 'uploads/p1_6af7da62c8a75.jpg', '2026-11-14 03:49:54');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `username` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` varchar(20) NOT NULL DEFAULT 'user'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `users`
---
-
 INSERT INTO `users` (`id`, `name`, `username`, `email`, `password`, `role`) VALUES
 (1, 'admin', 'admin', 'adminadmin@gmail.com', '$2y$10$3eM3rA6PBOM9QhoneVRcD.DHRNt3IicTRzqi9pOPZg0i66l1EhQ6O', 'admin');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `product_id` (`product_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`),
-  ADD UNIQUE KEY `email` (`email`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `products`
---
-ALTER TABLE `products`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
-
---
--- AUTO_INCREMENT for table `product_images`
---
-ALTER TABLE `product_images`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `product_images`
---
-ALTER TABLE `product_images`
-  ADD CONSTRAINT `fk_image_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
