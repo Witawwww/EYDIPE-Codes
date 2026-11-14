@@ -1,0 +1,17 @@
+Emojis to remove with proper icon:
+
+🚚
+⚠️
+💰
+📦
+
+Others:
+- logout
+- volthub icon
+- dashboard icon
+- edit icon (pencil)
+- cart
+
+ADDITIONALS:
+- Add icon for search
+- Add icon for hide/unhide password (JS)
